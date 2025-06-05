@@ -16,7 +16,7 @@ public class AICharacterView : MonoBehaviour
     public float rotationSpeed = 5f;
     public float buyingRadious = 5f;
 
-    public EmployeeController employeeController;
+   [SerializeField] EmployeeView employeeView;
 
 
     // Start is called before the first frame update
@@ -24,7 +24,7 @@ public class AICharacterView : MonoBehaviour
     {
         var npcDepenpencies = new NPCDepenpencies
         {
-            employeeController = employeeController
+            GetEmployeeView = employeeView
         };
 
         controller = new AICharacterController(NPCCharacterModel, waypoints, moveSpeed, rotationSpeed, npcDepenpencies);

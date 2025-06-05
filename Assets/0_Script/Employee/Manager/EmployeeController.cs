@@ -12,31 +12,28 @@ public class EmployeeController
     EmployeeModel employeeModel;
     EmployeeView employeeView;
 
-    //[Header("Employee View")]
     Rigidbody rigidbody;
-    // FixedJoystick joystick;
-    //TextMeshProUGUI bankBalanceText;
-    //[SerializeField] TextMeshProUGUI targetBankBalanceText;
-    //[SerializeField] GameLevel CurrentLevel = GameLevel.None;
-    //[SerializeField] EmployeeType employeeType = EmployeeType.None;
+    
 
 
-    // Start is called before the first frame update
-    public EmployeeController(GameObject _employeeModel, float _speed )
+    public EmployeeController(EmployeeView view, EmployeeModel model)
     {
-        this.employeeModel = new EmployeeModel(_employeeModel, _speed);
-        this.rigidbody = employeeModel.employeeCharacterModel.GetComponent<Rigidbody>();
-       
-        this.employeeModel.bankBalance = 0;
-        this.employeeModel.targetBankBalance = SetTargetBankBalance();
+        this.rigidbody = model.EmployeeCharacterModel.GetComponent<Rigidbody>();
+        this.employeeView = view;
+        this.employeeModel = model;
+
+        SetTargetBankBalance();
         startingStats();
     }
 
+
     public void startingStats()
     {
+        this.employeeModel.BankBalance = 0;
+        this.employeeModel.TargetBankBalance = SetTargetBankBalance();
         if (employeeView.BankBalanceText != null)
         {
-            employeeView.BankBalanceText.text = "Bank Balance: " + employeeModel.bankBalance.ToString();
+            employeeView.BankBalanceText.text = "Bank Balance: " + employeeModel.BankBalance.ToString();
         }
 
 
@@ -52,36 +49,36 @@ public class EmployeeController
         switch (employeeView.CurrentLevel)
         {
             case GameLevel.Level1:
-                return employeeModel.targetBankBalance = 500;
+                return employeeModel.TargetBankBalance = 500;
                 
             case GameLevel.Level2:
-                return employeeModel.targetBankBalance = 1000;
+                return employeeModel.TargetBankBalance = 1000;
                
             case GameLevel.Level3:
-                return employeeModel.targetBankBalance = 1500;
+                return employeeModel.TargetBankBalance = 1500;
                
             default:
-                return employeeModel.targetBankBalance = 0;
+                return employeeModel.TargetBankBalance = 0;
                 
         }
     }
 
-    public int GetBankBalance()=> employeeModel.bankBalance;
+   
 
     public void TransferPayment(int amount)
     {
-        if(!employeeModel.isPaymentTransferred)
+        if(!employeeModel.IsPaymentTransferred)
         {
-            employeeModel.bankBalance += amount;
+            employeeModel.BankBalance += amount;
             if (employeeView.BankBalanceText != null)
             {
-                employeeView.BankBalanceText.text = "Bank Balance: " + employeeModel.bankBalance.ToString();
+                employeeView.BankBalanceText.text = "Bank Balance: " + employeeModel.BankBalance.ToString();
             }
-            employeeModel.isPaymentTransferred = true; 
+            employeeModel.IsPaymentTransferred = true; 
         }
        
     }
-    public void Update()
+    public void update()
     {
         Levelup();
     }
@@ -93,19 +90,19 @@ public class EmployeeController
 
     void Movement()
     {
-        
-        rigidbody.velocity = new Vector3(employeeView.Joystick.Horizontal * employeeModel.speed, rigidbody.velocity.y, employeeView.Joystick.Vertical * employeeModel.speed);
+
+        rigidbody.velocity = new Vector3(employeeView.Joystick.Horizontal * employeeModel.Speed, rigidbody.velocity.y, employeeView.Joystick.Vertical * employeeModel.Speed);
 
         if(employeeView.Joystick.Horizontal != 0 || employeeView.Joystick.Vertical != 0)
         {
-            employeeModel.employeeCharacterModel.transform.rotation = Quaternion.LookRotation(rigidbody.velocity);
+            employeeModel.EmployeeCharacterModel.transform.rotation = Quaternion.LookRotation(rigidbody.velocity);
         }   
 
     }
 
     public void Levelup()
     {
-        if (employeeModel.bankBalance == employeeModel.targetBankBalance)
+        if (employeeModel.BankBalance == employeeModel.TargetBankBalance)
         {
             //load next level or scene
         }

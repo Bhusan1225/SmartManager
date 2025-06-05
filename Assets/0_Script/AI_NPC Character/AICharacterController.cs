@@ -126,10 +126,9 @@ public class AICharacterController
         {
             Debug.Log("Pay the required amount");
             aiModel.moveSpeed = 0f; // Stop moving while buying
-                                        // Implement payment logic here
-
-            // Implement pickup logic here
-            npcDepenpencies.employeeController.TransferPayment(10);
+            
+            // Implement payment logic here
+             npcDepenpencies.GetEmployeeView.GetEmployeeController.TransferPayment(10);
             // Wait for 2 seconds asynchronously
             await Task.Delay(2000);
             PurchesDone();
