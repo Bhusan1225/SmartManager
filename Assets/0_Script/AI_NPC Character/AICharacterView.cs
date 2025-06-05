@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class AICharacterView : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class AICharacterView : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 1f;
     public float rotationSpeed = 5f;
+    public float buyingRadious = 5f;
  
 
     // Start is called before the first frame update
@@ -25,6 +27,12 @@ public class AICharacterView : MonoBehaviour
     void Update()
     {
         controller.Update();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(NPCCharacterModel.transform.position, 0.3f);
     }
 
 }

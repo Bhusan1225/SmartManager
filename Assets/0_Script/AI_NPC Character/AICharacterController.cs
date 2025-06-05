@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UIElements;
+using System.Threading.Tasks;
 
 public class AICharacterController 
 {
@@ -28,10 +32,12 @@ public class AICharacterController
     public void Update()
     {
         AIMovement();
+        PickupProduct();
+        PayCash();
     }
 
     void AIMovement()
-        {
+    {
         if (!aiCharacter.isMoving)
         {
             return;
@@ -65,4 +71,93 @@ public class AICharacterController
         }
         
     }
+
+    async void PickupProduct()
+    {
+        if( ShopRackInRange())
+        {
+            Debug.Log("Pickup product from the shop rack.");
+            aiCharacter.moveSpeed = 0f; // Stop moving while buying
+            // Implement pickup logic here
+
+
+            // Wait for 2 seconds asynchronously
+            await Task.Delay(2000);
+            AddedToCart();
+
+        }
+    }
+
+    private void AddedToCart()
+    {
+        Debug.Log("Finished shopping. Resuming movement.");
+        aiCharacter.moveSpeed = 1f; // Resume moving after buying
+    }
+
+    bool ShopRackInRange()
+    {
+        float buyingRadious = 0.3f;
+        Collider[] hitColliders = Physics.OverlapSphere(aiCharacter.NPCCharacterModel.transform.position, buyingRadious);
+        {
+            foreach (Collider collider in hitColliders)
+            {
+                if(collider.gameObject.layer == 7)
+                {
+                    Debug.Log("Shop Rack in range: " + collider.name);
+                    return true; // Shop Rack found in range
+                }
+                
+                
+            }
+        }
+
+        //Debug.Log("No Shop Rack in range.");
+        return false; // None were found
+    }
+
+
+    async void PayCash()
+    {
+        if (CashCounterInRange())
+        {
+            Debug.Log("Pay the required amount");
+            aiCharacter.moveSpeed = 0f; // Stop moving while buying
+            // Implement payment logic here
+
+
+            // Wait for 2 seconds asynchronously
+            await Task.Delay(2000);
+            PurchesDone();
+
+        }
+    }
+
+    private void PurchesDone()
+    {
+        aiCharacter.moveSpeed = 1f; // Resume moving after purchesing the product
+    }
+
+    bool CashCounterInRange()
+    {
+        float purchesRadious = 0.3f;
+        Collider[] hitColliders = Physics.OverlapSphere(aiCharacter.NPCCharacterModel.transform.position, purchesRadious);
+        {
+            foreach (Collider collider in hitColliders)
+            {
+                if (collider.gameObject.layer == 8)
+                {
+                    Debug.Log("Cash Counter is in range: " + collider.name);
+                    return true; // Shop Rack found in range
+                }
+
+
+            }
+        }
+
+        //Debug.Log("No Shop Rack in range.");
+        return false; // None were found
+    }
+
+
+
 }
