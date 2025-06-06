@@ -129,9 +129,7 @@ public class EmployeeController
             }
             rack = null;
         }
-        
-        
-       
+
     }
 
     public void OnCollisionEnter(Collision collision)
