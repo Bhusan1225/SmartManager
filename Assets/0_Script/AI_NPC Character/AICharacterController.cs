@@ -10,25 +10,34 @@ using System.Threading.Tasks;
 public class AICharacterController 
 {
 
-    AICharacterModel aiModel;
-    AICharacterView  aiCharacterView;
+    AICharacterModel AiCharacterModel;
+    AICharacterView  AiCharacterView;
 
     NPCDepenpencies npcDepenpencies;
 
 
-    public AICharacterController(GameObject _NPCCharacterModel, List<Transform> _waypoints, float _moveSpeed, float _rotationSpeed, NPCDepenpencies _npcDepenpencies)
+    //public AICharacterController(GameObject _NPCCharacterModel, List<Transform> _waypoints, float _moveSpeed, float _rotationSpeed, NPCDepenpencies _npcDepenpencies)
+    //{
+    //    AiCharacterModel = new AICharacterModel(_NPCCharacterModel, _waypoints, _moveSpeed, _rotationSpeed);
+    //    StartMoving();
+    //    this.npcDepenpencies = _npcDepenpencies;
+    //}
+
+
+    public AICharacterController(AICharacterView _view, AICharacterModel _model, NPCDepenpencies _npcDepenpencies)
     {
-        aiModel = new AICharacterModel(_NPCCharacterModel, _waypoints, _moveSpeed, _rotationSpeed);
+        this.AiCharacterView = _view;
+        this.AiCharacterModel = _model;
+       
         StartMoving();
         this.npcDepenpencies = _npcDepenpencies;
     }
 
 
-
     void StartMoving()
     {
-        aiModel.waypointIndex = 0;
-        aiModel.isMoving = true;
+        AiCharacterModel.waypointIndex = 0;
+        AiCharacterModel.isMoving = true;
         
     }
 
@@ -42,33 +51,33 @@ public class AICharacterController
 
     void AIMovement()
     {
-        if (!aiModel.isMoving)
+        if (!AiCharacterModel.isMoving)
         {
             return;
         }
 
-        if (aiModel.waypointIndex < aiModel.waypoints.Count)
+        if (AiCharacterModel.waypointIndex < AiCharacterModel.waypoints.Count)
         {
-            aiModel.NPCCharacterModel.transform.position = Vector3.MoveTowards(aiModel.NPCCharacterModel.transform.position, aiModel.waypoints[aiModel.waypointIndex].position, Time.deltaTime * aiModel.moveSpeed); // first movement to first point
+            AiCharacterModel.NPCCharacterModel.transform.position = Vector3.MoveTowards(AiCharacterModel.NPCCharacterModel.transform.position, AiCharacterModel.waypoints[AiCharacterModel.waypointIndex].position, Time.deltaTime * AiCharacterModel.moveSpeed); // first movement to first point
 
             //roation
-            var direction = aiModel.NPCCharacterModel.transform.position - aiModel.waypoints[aiModel.waypointIndex].position;
+            var direction = AiCharacterModel.NPCCharacterModel.transform.position - AiCharacterModel.waypoints[AiCharacterModel.waypointIndex].position;
             var targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-            aiModel.NPCCharacterModel.transform.rotation = Quaternion.Lerp(aiModel.NPCCharacterModel.transform.rotation, targetRotation, Time.deltaTime * aiModel.rotationSpeed); // smooth rotation towards the waypoint
+            AiCharacterModel.NPCCharacterModel.transform.rotation = Quaternion.Lerp(AiCharacterModel.NPCCharacterModel.transform.rotation, targetRotation, Time.deltaTime * AiCharacterModel.rotationSpeed); // smooth rotation towards the waypoint
 
 
             // seting the distance
-            var distance = Vector3.Distance(aiModel.NPCCharacterModel.transform.position, aiModel.waypoints[aiModel.waypointIndex].position);
+            var distance = Vector3.Distance(AiCharacterModel.NPCCharacterModel.transform.position, AiCharacterModel.waypoints[AiCharacterModel.waypointIndex].position);
 
             if (distance <= 0.05f)
             {
-                aiModel.waypointIndex++;
+                AiCharacterModel.waypointIndex++;
 
 
-                if (aiModel.isLoop && aiModel.waypointIndex >= aiModel.waypoints.Count)
+                if (AiCharacterModel.isLoop && AiCharacterModel.waypointIndex >= AiCharacterModel.waypoints.Count)
                 {
 
-                    aiModel.waypointIndex = 0; // loop back to the first waypoint
+                    AiCharacterModel.waypointIndex = 0; // loop back to the first waypoint
 
                 }
             }
@@ -81,8 +90,8 @@ public class AICharacterController
         if( ShopRackInRange())
         {
             Debug.Log("Pickup product from the shop rack.");
-            aiModel.moveSpeed = 0f; // Stop moving while buying
-            aiModel.isMoving = false;
+            AiCharacterModel.moveSpeed = 0f; // Stop moving while buying
+            AiCharacterModel.isMoving = false;
 
             // Wait for 5 seconds asynchronously
             await Task.Delay(5000);
@@ -94,14 +103,14 @@ public class AICharacterController
     private void AddedToCart()
     {
         Debug.Log("Finished shopping. Resuming movement.");
-        aiModel.isMoving = true;
-        aiModel.moveSpeed = 1f; // Resume moving after buying
+        AiCharacterModel.isMoving = true;
+        AiCharacterModel.moveSpeed = 1f; // Resume moving after buying
     }
 
     bool ShopRackInRange()
     {
         float buyingRadious = 0.3f;
-        Collider[] hitColliders = Physics.OverlapSphere(aiModel.NPCCharacterModel.transform.position, buyingRadious);
+        Collider[] hitColliders = Physics.OverlapSphere(AiCharacterModel.NPCCharacterModel.transform.position, buyingRadious);
         {
             foreach (Collider collider in hitColliders)
             {
@@ -125,7 +134,7 @@ public class AICharacterController
         if (CashCounterInRange() && ManagerInRange())
         {
             Debug.Log("Pay the required amount");
-            aiModel.moveSpeed = 0f; // Stop moving while buying
+            AiCharacterModel.moveSpeed = 0f; // Stop moving while buying
             
             // Implement payment logic here
              npcDepenpencies.GetEmployeeView.GetEmployeeController.TransferPayment(10);
@@ -137,23 +146,23 @@ public class AICharacterController
         else if (CashCounterInRange()) 
         {
             Debug.Log("Wait for the Manager for the payment");
-            aiModel.moveSpeed = 0f;
+            AiCharacterModel.moveSpeed = 0f;
         }
         else
         {
-            aiModel.moveSpeed = 1f;
+            AiCharacterModel.moveSpeed = 1f;
         }
     }
 
     private void PurchesDone()
     {
-        aiModel.moveSpeed = 1f; // Resume moving after purchesing the product
+        AiCharacterModel.moveSpeed = 1f; // Resume moving after purchesing the product
     }
 
     bool CashCounterInRange()
     {
         float purchesRadious = 0.3f;
-        Collider[] hitColliders = Physics.OverlapSphere(aiModel.NPCCharacterModel.transform.position, purchesRadious);
+        Collider[] hitColliders = Physics.OverlapSphere(AiCharacterModel.NPCCharacterModel.transform.position, purchesRadious);
         {
             foreach (Collider collider in hitColliders)
             {
@@ -174,7 +183,7 @@ public class AICharacterController
     bool ManagerInRange()
     {
         float purchesRadious = 1.1f;
-        Collider[] hitColliders = Physics.OverlapSphere(aiModel.NPCCharacterModel.transform.position, purchesRadious);
+        Collider[] hitColliders = Physics.OverlapSphere(AiCharacterModel.NPCCharacterModel.transform.position, purchesRadious);
         {
             foreach (Collider collider in hitColliders)
             {

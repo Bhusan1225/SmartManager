@@ -81,6 +81,7 @@ public class EmployeeController
     public void update()
     {
         Levelup();
+        
     }
     public void FixedUpdate()
     {
@@ -107,27 +108,83 @@ public class EmployeeController
             //load next level or scene
         }
     }
+    /// <summary>
+    /// /////////////////////////////////////////////
+    /// </summary>
+
+    
+    public void OnCollisionStay(Collision collision)
+    {
+
+        if (collision.gameObject.layer == 6)
+        {
+            Rack rack = collision.gameObject.GetComponent<Rack>();
+            if (rack != null && employeeModel.Cart.Count != 2)
+            {
+                employeeModel.NearbyRack = rack;
+                rack.RemoveProduct(employeeModel.Product);
+                Debug.Log("Product removed from rack: ");
+                AddProductToCart(employeeModel.Product);
+                Debug.Log("Product added to cart ");
+            }
+            rack = null;
+        }
+        
+        
+       
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 7)
+        {
+            bool isCartEmpty = employeeModel.Cart.Count == 0;
+            Rack rack = collision.gameObject.GetComponent<Rack>();
+            if (rack != null && employeeModel.Cart.Count > 0 && !isCartEmpty)
+            {
+                Debug.Log("Employee is colliding with shop rack");
+                employeeModel.NearbyRack = rack;
+                RemoveProductToCart(employeeModel.Product);
+                rack.AddProduct(employeeModel.Product);
+                //
+                //Debug.Log("Product added to cart ");
+            }
+            //rack = null;
+        }
+    }
 
 
-    //public bool AttendCashCounter()
-    //{
-    //    float checkingRange = 0.4f;
-    //    Collider[] hitColliders = Physics.OverlapSphere(employeeModel.employeeCharacterModel.transform.position, checkingRange);
+    public void AddProductToCart(ProductSO targetProduct)
+    {
 
-    //    foreach(Collider collider in hitColliders )
-    //    {
-    //        if (collider.gameObject.layer == 8)
-    //        {
-    //            Debug.Log("Emplove is present in CashCounter.");
+            if (targetProduct == employeeView.Product && employeeModel.Cart.Count != 2)
+            {
+                employeeModel.Cart.Add(targetProduct);
+                employeeModel.ProductCount++;
+                employeeView.ProductCountText.text = employeeModel.ProductCount.ToString();
+            }
+            else if (employeeModel.Cart.Count == 2)
+            {
+                Debug.Log("Cart is full");
+            }
+        
+    }
 
-    //            return true; // Cash counter found in range
+    public void RemoveProductToCart(ProductSO targetProduct)
+    {
 
-    //        }
+        if (targetProduct == employeeView.Product && employeeModel.Cart.Count > 0)
+        {
+            employeeModel.Cart.Remove(targetProduct);
+            employeeModel.ProductCount--;
+            employeeView.ProductCountText.text = employeeModel.ProductCount.ToString();
+        }
+        else if (employeeModel.Cart.Count == 0)
+        {
+            Debug.Log("Cart is empty");
+        }
 
-    //    }
-    //    return false;
-    //}
-
+    }
 
 
 

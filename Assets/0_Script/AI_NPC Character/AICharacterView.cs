@@ -19,6 +19,7 @@ public class AICharacterView : MonoBehaviour
    [SerializeField] EmployeeView employeeView;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,10 @@ public class AICharacterView : MonoBehaviour
             GetEmployeeView = employeeView
         };
 
-        controller = new AICharacterController(NPCCharacterModel, waypoints, moveSpeed, rotationSpeed, npcDepenpencies);
+        //controller = new AICharacterController(NPCCharacterModel, waypoints, moveSpeed, rotationSpeed, npcDepenpencies);
+
+        var model = new AICharacterModel(NPCCharacterModel, waypoints, moveSpeed, rotationSpeed);
+        controller = new AICharacterController(this, model, npcDepenpencies);
     }
 
     // Update is called once per frame

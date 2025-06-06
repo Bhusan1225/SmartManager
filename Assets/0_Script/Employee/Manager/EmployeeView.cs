@@ -20,11 +20,15 @@ public class EmployeeView : MonoBehaviour
 
     private EmployeeController employeeController;
 
+    [SerializeField] ProductSO product; 
+    [SerializeField] List<ProductSO> cart;
+    [SerializeField] Rack nearbyRack = null;
+    [SerializeField] TextMeshProUGUI productCountText;
     // Start is called before the first frame update
     void Start()
     {
-        //SetCurrentLevel(currentLevel);
-        var model = new EmployeeModel(employeeCharacterModel, speed, currentLevel, employeeType);
+        productCountText.text = "0";
+        var model = new EmployeeModel(employeeCharacterModel, speed, currentLevel, employeeType, cart, nearbyRack, product );
         employeeController = new EmployeeController(this, model);
     }
 
@@ -39,6 +43,16 @@ public class EmployeeView : MonoBehaviour
     private void FixedUpdate()
     {
         employeeController.FixedUpdate();
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        employeeController.OnCollisionStay(collision);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        employeeController.OnCollisionEnter(collision);
     }
     private void OnDrawGizmos()
     {
@@ -64,4 +78,27 @@ public class EmployeeView : MonoBehaviour
     public EmployeeType EmployeeType => employeeType;
 
     public EmployeeController GetEmployeeController => employeeController;
+
+   
+    public List<ProductSO> Cart
+    {
+        get => cart;
+        set => cart = value;
+    }
+    public ProductSO Product
+    {
+        get => product;
+        set => product = value;
+    }
+    public Rack NearbyRack
+    {
+        get => nearbyRack;
+        set => nearbyRack = value;
+    }
+    public TextMeshProUGUI ProductCountText
+    {
+        get => productCountText;
+        set => productCountText = value;
+    }
+
 }
