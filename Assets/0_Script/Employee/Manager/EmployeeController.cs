@@ -54,15 +54,15 @@ public class EmployeeController
         employeeModel.IsReadyForNewLoop = true;
     }
 
-    int SetTargetBankBalance()
+    public int SetTargetBankBalance()
     {
         switch (employeeView.CurrentLevel)
         {
             case GameLevel.Level1:
-                return employeeModel.TargetBankBalance = 500;
+                return employeeModel.TargetBankBalance = 50;
                 
             case GameLevel.Level2:
-                return employeeModel.TargetBankBalance = 1000;
+                return employeeModel.TargetBankBalance = 60;
                
             case GameLevel.Level3:
                 return employeeModel.TargetBankBalance = 1500;
@@ -170,9 +170,10 @@ public class EmployeeController
 
     public void Levelup()
     {
-        if (employeeModel.BankBalance == employeeModel.TargetBankBalance)
+        if (employeeModel.BankBalance >= employeeModel.TargetBankBalance)
         {
             //load next level or scene
+            employeeView.GameOverUI.SetActive(true);
         }
     }
     /// <summary>

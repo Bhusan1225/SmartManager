@@ -108,7 +108,7 @@ public class EmployeeModel
         set => employeeType = value;
     }
 
-    public EmployeeModel(GameObject _model, float _speed, GameLevel _currentLevel, EmployeeType _employeeType, List<ProductSO> _cart, Rack _nearbyRack, ProductSO _product, List<Transform> _waypoints)
+    public EmployeeModel(GameObject _model, float _speed, GameLevel _currentLevel, EmployeeType _employeeType, List<ProductSO> _cart, Rack _nearbyRack, ProductSO _product, List<Transform> _waypoints, int _targetBankBalance)
     {
         this.employeeCharacterModel = _model;
         this.speed = _speed;
@@ -121,9 +121,9 @@ public class EmployeeModel
 
         productCount = _cart.Count;
         this.waypoints = _waypoints;
-       // this.isMoving = _isMoving;  
-
-
+      
+        this.targetBankBalance = _targetBankBalance;
+ 
     }
 
 

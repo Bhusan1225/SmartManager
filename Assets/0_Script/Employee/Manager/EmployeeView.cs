@@ -15,6 +15,7 @@ public class EmployeeView : MonoBehaviour
     [SerializeField] FixedJoystick joystick;
     [SerializeField] TextMeshProUGUI bankBalanceText;
     [SerializeField] TextMeshProUGUI targetBankBalanceText;
+    [SerializeField] int targetBankBalance;
     [SerializeField] GameLevel currentLevel;
     [SerializeField] EmployeeType employeeType;
 
@@ -25,19 +26,22 @@ public class EmployeeView : MonoBehaviour
     [SerializeField] Rack nearbyRack = null;
     [SerializeField] TextMeshProUGUI productCountText;
 
-
+    public GameObject GameOverUI;
 
     [SerializeField] List<Transform> waypoints = new List<Transform>();
 
     // Start is called before the first frame update
     void Start()
     {
+        GameOverUI.SetActive(false);
         productCountText.text = "0";
-        var model = new EmployeeModel(employeeCharacterModel, speed, currentLevel, employeeType, cart, nearbyRack, product, waypoints);
+        
+        
+        
+        var model = new EmployeeModel(employeeCharacterModel, speed, currentLevel, employeeType, cart, nearbyRack, product, waypoints, targetBankBalance);
         employeeController = new EmployeeController(this, model);
+        targetBankBalance = employeeController.SetTargetBankBalance();
     }
-
-
 
     // Update is called once per frame
     void Update()
