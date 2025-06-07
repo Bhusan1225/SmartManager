@@ -69,6 +69,8 @@ All AI characters use simple, scalable logic for interaction and navigation.
 ---
 
 ## Project Structure (Sample)
+![SmartManagerUserFlow-Page-1 drawio](https://github.com/user-attachments/assets/588cda9b-e3ec-4601-a493-8e300c1015ad)
+![SmartManagerUserFlow-UML drawio](https://github.com/user-attachments/assets/3acc783e-dee2-4d13-96e9-ec507669c80e)
 
 
 
