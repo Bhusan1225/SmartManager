@@ -6,7 +6,7 @@ public class AICharacterModel
 {
     private GameObject npcCharacterModel;
     private List<Transform> waypoints = new List<Transform>();
-    private bool isMoving;
+    private bool isMoving = false;
     private int waypointIndex;
     private float moveSpeed = 1f;
     private float rotationSpeed = 5f;

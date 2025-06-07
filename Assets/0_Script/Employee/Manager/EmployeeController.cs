@@ -26,7 +26,11 @@ public class EmployeeController
         startingStats();
     }
 
-
+    public EmployeeModel GetEmployeeModel
+    {
+        get => employeeModel;
+        set => employeeModel = value;
+    }
     public void startingStats()
     {
         this.employeeModel.BankBalance = 0;
@@ -42,6 +46,12 @@ public class EmployeeController
 
             employeeView.TargetBankBalanceText.text = "Target Bank Balance: " + SetTargetBankBalance().ToString();
         }
+
+        // for Employee movement
+        employeeModel.WaypointIndex = 0;
+        employeeModel.IsMoving = false;
+        employeeModel.IsLoop = true;
+        employeeModel.IsReadyForNewLoop = true;
     }
 
     int SetTargetBankBalance()
@@ -76,16 +86,21 @@ public class EmployeeController
             }
             employeeModel.IsPaymentTransferred = true; 
         }
-       
+        //employeeModel.IsPaymentTransferred = false;
     }
     public void update()
     {
         Levelup();
+        EmployeeMovement();
         
     }
     public void FixedUpdate()
     {
-        Movement();
+        if(employeeModel.EmployeeType == EmployeeType.Manager)
+        {
+            Movement();
+        }
+
     }
 
 
@@ -100,6 +115,58 @@ public class EmployeeController
         }   
 
     }
+    void StartOneLoop()
+    {
+        employeeModel.IsMoving = true;
+        employeeModel.WaypointIndex = 0;
+        employeeModel.IsReadyForNewLoop = false; 
+    }
+    void EmployeeMovement()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (employeeModel.IsReadyForNewLoop)
+            {
+                StartOneLoop();
+            }
+        }
+
+        if (!employeeModel.IsMoving)
+            {
+                return;
+            }
+
+            if (employeeModel.WaypointIndex < employeeModel.Waypoints.Count)
+            {
+                employeeModel.EmployeeCharacterModel.transform.position = Vector3.MoveTowards(employeeModel.EmployeeCharacterModel.transform.position, employeeModel.Waypoints[employeeModel.WaypointIndex].position, Time.deltaTime * employeeModel.MoveSpeed); // first movement to first point
+
+                //roation
+                var direction = employeeModel.EmployeeCharacterModel.transform.position - employeeModel.Waypoints[employeeModel.WaypointIndex].position;
+                var targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+                employeeModel.EmployeeCharacterModel.transform.rotation = Quaternion.Lerp(employeeModel.EmployeeCharacterModel.transform.rotation, targetRotation, Time.deltaTime * employeeModel.RotationSpeed); // smooth rotation towards the waypoint
+
+
+                // seting the distance
+                var distance = Vector3.Distance(employeeModel.EmployeeCharacterModel.transform.position, employeeModel.Waypoints[employeeModel.WaypointIndex].position);
+
+                if (distance <= 0.05f)
+                {
+                    employeeModel.WaypointIndex++;
+
+
+                    if (employeeModel.IsLoop && employeeModel.WaypointIndex >= employeeModel.Waypoints.Count)
+                    {
+                       employeeModel.IsMoving = false;
+                       employeeModel.WaypointIndex = 0; // loop back to the first waypoint
+                       employeeModel.IsReadyForNewLoop = true;
+                    }
+                }
+            }
+        
+
+    }
+    
 
     public void Levelup()
     {

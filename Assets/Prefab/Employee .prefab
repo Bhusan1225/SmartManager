@@ -159,6 +159,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e631c64116f89e845a3d6ba902cadfbc, type: 2}
   nearbyRack: {fileID: 0}
   productCountText: {fileID: 6220624910758906806}
+  waypoints: []
 --- !u!1 &5474542261788278229
 GameObject:
   m_ObjectHideFlags: 0

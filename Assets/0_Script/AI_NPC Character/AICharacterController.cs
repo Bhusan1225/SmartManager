@@ -16,14 +16,6 @@ public class AICharacterController
     NPCDepenpencies npcDepenpencies;
 
 
-    //public AICharacterController(GameObject _NPCCharacterModel, List<Transform> _waypoints, float _moveSpeed, float _rotationSpeed, NPCDepenpencies _npcDepenpencies)
-    //{
-    //    AiCharacterModel = new AICharacterModel(_NPCCharacterModel, _waypoints, _moveSpeed, _rotationSpeed);
-    //    StartMoving();
-    //    this.npcDepenpencies = _npcDepenpencies;
-    //}
-
-
     public AICharacterController(AICharacterView _view, AICharacterModel _model, NPCDepenpencies _npcDepenpencies)
     {
         this.AiCharacterView = _view;
@@ -154,9 +146,11 @@ public class AICharacterController
         }
     }
 
-    private void PurchesDone()
+    async void PurchesDone()
     {
         AiCharacterModel.MoveSpeed = 1f; // Resume moving after purchesing the product
+        await Task.Delay(2000);
+        npcDepenpencies.GetEmployeeView.GetEmployeeController.GetEmployeeModel.IsPaymentTransferred = false;
     }
 
     bool CashCounterInRange()

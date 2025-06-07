@@ -34,7 +34,7 @@ public class AICharacterView : MonoBehaviour
             GetEmployeeView = employeeView
         };
 
-        //controller = new AICharacterController(NPCCharacterModel, waypoints, moveSpeed, rotationSpeed, npcDepenpencies);
+       
 
         var model = new AICharacterModel(NPCCharacterModel, waypoints, moveSpeed, rotationSpeed, product, nearbyRack, cart);
         controller = new AICharacterController(this, model, npcDepenpencies);

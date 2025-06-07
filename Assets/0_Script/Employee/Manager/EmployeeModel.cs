@@ -19,9 +19,25 @@ public class EmployeeModel
     private List<ProductSO> cart = new List<ProductSO>();
     private int productCount;
 
+    private bool isReadyForNewLoop = true;
+
     //private EmployeeController employeeController;
 
 
+
+    private List<Transform> waypoints = new List<Transform>();
+    private bool isMoving;
+    private int waypointIndex;
+    private float moveSpeed = 1f;
+    private float rotationSpeed = 5f;
+    private bool isLoop;
+
+
+    public bool IsReadyForNewLoop
+    {
+        get => isReadyForNewLoop;
+        set => isReadyForNewLoop = value;
+    }
     public int ProductCount
     {
         get => productCount;
@@ -92,7 +108,7 @@ public class EmployeeModel
         set => employeeType = value;
     }
 
-    public EmployeeModel(GameObject _model, float _speed, GameLevel _currentLevel, EmployeeType _employeeType, List<ProductSO> _cart, Rack _nearbyRack, ProductSO _product)
+    public EmployeeModel(GameObject _model, float _speed, GameLevel _currentLevel, EmployeeType _employeeType, List<ProductSO> _cart, Rack _nearbyRack, ProductSO _product, List<Transform> _waypoints)
     {
         this.employeeCharacterModel = _model;
         this.speed = _speed;
@@ -104,8 +120,47 @@ public class EmployeeModel
         this.product = _product;
 
         productCount = _cart.Count;
-       
+        this.waypoints = _waypoints;
+       // this.isMoving = _isMoving;  
 
+
+    }
+
+
+    public List<Transform> Waypoints
+    {
+        get => waypoints;
+        set => waypoints = value;
+    }
+
+    public bool IsMoving
+    {
+        get => isMoving;
+        set => isMoving = value;
+    }
+
+    public int WaypointIndex
+    {
+        get => waypointIndex;
+        set => waypointIndex = value;
+    }
+
+    public float MoveSpeed
+    {
+        get => moveSpeed;
+        set => moveSpeed = value;
+    }
+
+    public float RotationSpeed
+    {
+        get => rotationSpeed;
+        set => rotationSpeed = value;
+    }
+
+    public bool IsLoop
+    {
+        get => isLoop;
+        set => isLoop = value;
     }
 }
 

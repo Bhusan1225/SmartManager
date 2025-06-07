@@ -24,11 +24,16 @@ public class EmployeeView : MonoBehaviour
     [SerializeField] List<ProductSO> cart;
     [SerializeField] Rack nearbyRack = null;
     [SerializeField] TextMeshProUGUI productCountText;
+
+
+
+    [SerializeField] List<Transform> waypoints = new List<Transform>();
+
     // Start is called before the first frame update
     void Start()
     {
         productCountText.text = "0";
-        var model = new EmployeeModel(employeeCharacterModel, speed, currentLevel, employeeType, cart, nearbyRack, product );
+        var model = new EmployeeModel(employeeCharacterModel, speed, currentLevel, employeeType, cart, nearbyRack, product, waypoints);
         employeeController = new EmployeeController(this, model);
     }
 
