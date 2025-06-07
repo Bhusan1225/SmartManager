@@ -207,7 +207,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 14.3}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &270181538
@@ -1696,7 +1696,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 6.7}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &764683301
@@ -1836,7 +1836,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 500}
+  m_SizeDelta: {x: 1280, y: 420}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790043791
 MonoBehaviour:
@@ -6990,6 +6990,11 @@ PrefabInstance:
       objectReference: {fileID: 1344710263}
     - target: {fileID: 2292237649001958189, guid: 5e8765ee06748aa4d82204a50cb83582,
         type: 3}
+      propertyPath: cart.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292237649001958189, guid: 5e8765ee06748aa4d82204a50cb83582,
+        type: 3}
       propertyPath: targetBankBalanceText
       value: 
       objectReference: {fileID: 1860137878}
@@ -8972,8 +8977,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5437959045287664388, guid: 468937577158fdc48b13a0cc88d3f914,
         type: 3}
+      propertyPath: m_Size.y
+      value: 0.6981745
+      objectReference: {fileID: 0}
+    - target: {fileID: 5437959045287664388, guid: 468937577158fdc48b13a0cc88d3f914,
+        type: 3}
       propertyPath: m_Size.z
-      value: 1.6229284
+      value: 1.3100195
       objectReference: {fileID: 0}
     - target: {fileID: 5437959045287664388, guid: 468937577158fdc48b13a0cc88d3f914,
         type: 3}
@@ -8982,13 +8992,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5437959045287664388, guid: 468937577158fdc48b13a0cc88d3f914,
         type: 3}
+      propertyPath: m_Center.y
+      value: -0.15091258
+      objectReference: {fileID: 0}
+    - target: {fileID: 5437959045287664388, guid: 468937577158fdc48b13a0cc88d3f914,
+        type: 3}
       propertyPath: m_Center.z
-      value: -0.13065636
+      value: 0.025798082
       objectReference: {fileID: 0}
     - target: {fileID: 6848996970185184298, guid: 468937577158fdc48b13a0cc88d3f914,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8306966827528600636, guid: 468937577158fdc48b13a0cc88d3f914,
         type: 3}
@@ -9007,6 +9022,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8703221678008818791, guid: 468937577158fdc48b13a0cc88d3f914,
         type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8703221678008818791, guid: 468937577158fdc48b13a0cc88d3f914,
+        type: 3}
       propertyPath: joystick
       value: 
       objectReference: {fileID: 3926909}
@@ -9020,6 +9040,11 @@ PrefabInstance:
       propertyPath: bankBalanceText
       value: 
       objectReference: {fileID: 1344710263}
+    - target: {fileID: 8703221678008818791, guid: 468937577158fdc48b13a0cc88d3f914,
+        type: 3}
+      propertyPath: cart.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8703221678008818791, guid: 468937577158fdc48b13a0cc88d3f914,
         type: 3}
       propertyPath: waypoints.Array.size
